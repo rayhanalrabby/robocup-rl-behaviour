@@ -1,56 +1,55 @@
 <mujoco model="robocup_simple">
 
-  <!-- Physics settings: 5 ms step -->
-  <option timestep="0.005" gravity="0 0 -9.81" integrator="implicitfast"/>
-    <!-- Starting view: whole field, looking from the side -->
-  <statistic center="0 0 0" extent="9"/>
-  <visual><global azimuth="90" elevation="-40"/></visual>
+    <!-- Physics settings: 5 ms step -->
+    <option timestep="0.005" gravity="0 0 -9.81" integrator="implicitfast"/>
+    <!-- Starting view: whole field, centred, looking from the side -->
+    <statistic center="0 -1 0" extent="10"/>
+    <visual><global azimuth="90" elevation="-55"/></visual>
 
+    <worldbody>
 
-  <worldbody>
+        <!-- Fixed camera that shows the whole field -->
+        <camera name="field_view" pos="0 -13 12" xyaxes="1 0 0 0 0.678 0.735"/>
 
-    <!-- Fixed camera that shows the whole field -->
-    <camera name="field_view" pos="0 -13 12" xyaxes="1 0 0 0 0.678 0.735"/>
+        <!-- Light and floor. M-Field is 14 x 9 m, plus 1 m border on each side -->
+        <light directional="true" pos="0 0 10" dir="0 0.3 -1" diffuse="0.8 0.8 0.8"/>
+        <geom name="floor" type="plane" size="8 5.5 0.1" rgba="0.2 0.6 0.2 1" friction="1 0.005 0.0001"/>
 
-    <!-- Light and floor. M-Field is 14 x 9 m, plus 1 m border on each side -->
-    <light directional="true" pos="0 0 10" dir="0 0.3 -1" diffuse="0.8 0.8 0.8"/>
-    <geom name="floor" type="plane" size="8 5.5 0.1" rgba="0.2 0.6 0.2 1" friction="1 0.005 0.0001"/>
+        <!-- Ball, FIFA size 3 -->
+        <body name="ball" pos="0 0 0.095">
+            <freejoint name="ball_joint"/>
+            <geom name="ball_geom" type="sphere" size="0.095" mass="0.31" rgba="1 1 1 1" condim="6" friction="0.8 0.02 0.005"/>
+        </body>
 
-    <!-- Ball, FIFA size 3 -->
-    <body name="ball" pos="0 0 0.095">
-      <freejoint name="ball_joint"/>
-      <geom name="ball_geom" type="sphere" size="0.095" mass="0.31" rgba="1 1 1 1" condim="6" friction="0.8 0.02 0.005"/>
-    </body>
+        <!-- Robot 1: moves in x and y, turns on the spot -->
+        <body name="robot1" pos="-2 0.5 0">
+            <joint name="r1_x" type="slide" axis="1 0 0"/>
+            <joint name="r1_y" type="slide" axis="0 1 0"/>
+            <joint name="r1_yaw" type="hinge" axis="0 0 1"/>
+            <geom name="r1_body" type="capsule" size="0.15 0.3" pos="0 0 0.46" mass="20" rgba="0.1 0.3 0.9 1"/>
+            <!-- Yellow box shows the front -->
+            <geom name="r1_front" type="box" size="0.05 0.05 0.05" pos="0.17 0 0.6" contype="0" conaffinity="0" rgba="1 1 0 1"/>
+        </body>
 
-    <!-- Robot 1: moves in x and y, turns on the spot -->
-    <body name="robot1" pos="-2 0.5 0">
-      <joint name="r1_x" type="slide" axis="1 0 0"/>
-      <joint name="r1_y" type="slide" axis="0 1 0"/>
-      <joint name="r1_yaw" type="hinge" axis="0 0 1"/>
-      <geom name="r1_body" type="capsule" size="0.15 0.3" pos="0 0 0.46" mass="20" rgba="0.1 0.3 0.9 1"/>
-      <!-- Yellow box shows the front -->
-      <geom name="r1_front" type="box" size="0.05 0.05 0.05" pos="0.17 0 0.6" contype="0" conaffinity="0" rgba="1 1 0 1"/>
-    </body>
+        <!-- Robot 2: same as robot 1, facing the other way -->
+        <body name="robot2" pos="2 -1 0" euler="0 0 3.14159">
+            <joint name="r2_x" type="slide" axis="1 0 0"/>
+            <joint name="r2_y" type="slide" axis="0 1 0"/>
+            <joint name="r2_yaw" type="hinge" axis="0 0 1"/>
+            <geom name="r2_body" type="capsule" size="0.15 0.3" pos="0 0 0.46" mass="20" rgba="0.9 0.1 0.1 1"/>
+            <geom name="r2_front" type="box" size="0.05 0.05 0.05" pos="0.17 0 0.6" contype="0" conaffinity="0" rgba="1 1 0 1"/>
+        </body>
 
-    <!-- Robot 2: same as robot 1, facing the other way -->
-    <body name="robot2" pos="2 -1 0" euler="0 0 3.14159">
-      <joint name="r2_x" type="slide" axis="1 0 0"/>
-      <joint name="r2_y" type="slide" axis="0 1 0"/>
-      <joint name="r2_yaw" type="hinge" axis="0 0 1"/>
-      <geom name="r2_body" type="capsule" size="0.15 0.3" pos="0 0 0.46" mass="20" rgba="0.9 0.1 0.1 1"/>
-      <geom name="r2_front" type="box" size="0.05 0.05 0.05" pos="0.17 0 0.6" contype="0" conaffinity="0" rgba="1 1 0 1"/>
-    </body>
+    </worldbody>
 
-  </worldbody>
-
-  <!-- Speed controls for each robot: x, y and turning -->
-  <actuator>
-    <velocity name="r1_vx" joint="r1_x" kv="400" ctrlrange="-1 1"/>
-    <velocity name="r1_vy" joint="r1_y" kv="400" ctrlrange="-1 1"/>
-    <velocity name="r1_wz" joint="r1_yaw" kv="20" ctrlrange="-2 2"/>
-    <velocity name="r2_vx" joint="r2_x" kv="400" ctrlrange="-1 1"/>
-    <velocity name="r2_vy" joint="r2_y" kv="400" ctrlrange="-1 1"/>
-    <velocity name="r2_wz" joint="r2_yaw" kv="20" ctrlrange="-2 2"/>
-  </actuator>
+    <!-- Speed controls for each robot: x, y and turning -->
+    <actuator>
+        <velocity name="r1_vx" joint="r1_x" kv="400" ctrlrange="-1 1"/>
+        <velocity name="r1_vy" joint="r1_y" kv="400" ctrlrange="-1 1"/>
+        <velocity name="r1_wz" joint="r1_yaw" kv="20" ctrlrange="-2 2"/>
+        <velocity name="r2_vx" joint="r2_x" kv="400" ctrlrange="-1 1"/>
+        <velocity name="r2_vy" joint="r2_y" kv="400" ctrlrange="-1 1"/>
+        <velocity name="r2_wz" joint="r2_yaw" kv="20" ctrlrange="-2 2"/>
+    </actuator>
 
 </mujoco>

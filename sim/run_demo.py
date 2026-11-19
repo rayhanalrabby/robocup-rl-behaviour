@@ -1,3 +1,5 @@
+import ctypes
+import sys
 import time
 from pathlib import Path
 
@@ -17,6 +19,10 @@ max_turn = 2.0  # rad/s
 behind_distance = 0.35  # how far behind the ball the passer lines up (m)
 kick_speed = 2.0  # ball speed after a kick (m/s)
 duration = 20.0  # seconds of simulated time
+duration = 20.0  # seconds of simulated time
+
+# Viewer settings
+show_panels = False  # True: show control panels, False: field only
 
 
 def get_pose(name):
@@ -29,6 +35,19 @@ def get_pose(name):
 def wrap_angle(a):
     """Keep an angle between -pi and pi."""
     return (a + np.pi) % (2 * np.pi) - np.pi
+
+
+def maximise_window(title):
+    """Maximise the viewer window on Windows."""
+    if sys.platform != "win32":
+        return
+    user32 = ctypes.windll.user32
+    for _ in range(50):
+        hwnd = user32.FindWindowW(None, title)
+        if hwnd:
+            user32.ShowWindow(hwnd, 3)  # 3 means maximise
+            return
+        time.sleep(0.1)
 
 
 def drive_to(robot_name, target, face):
@@ -56,7 +75,13 @@ def drive_to(robot_name, target, face):
 state = "GO_BEHIND_BALL"
 print("state:", state)
 
-with mujoco.viewer.launch_passive(model, data) as viewer:
+with mujoco.viewer.launch_passive(
+    model, data, show_left_ui=show_panels, show_right_ui=show_panels
+) as viewer:
+    mujoco.mjv_defaultFreeCamera(model, viewer.cam)  # start with the same view as Align
+    if show_panels:
+        viewer.cam.distance *= 1.6  # zoom out so the field fits between the panels
+    maximise_window("MuJoCo : robocup_simple")  # open the window maximised
     while viewer.is_running() and data.time < duration:
         step_start = time.time()
 
