@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# Training output
+results/*
+runs/
+logs/
+wandb/
+outputs/
+checkpoints/
+*.zip
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.npz
+*.monitor.csv
+tensorboard/
+
+# Large simulator assets
+*.stl
+*.STL
+*.obj
+*.dae
+
+# Video
+*.mp4
+*.gif
+
+# Editor and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
