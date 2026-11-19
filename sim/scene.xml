@@ -6,6 +6,11 @@
     <statistic center="0 -1 0" extent="10"/>
     <visual><global azimuth="90" elevation="-55"/></visual>
 
+    <!-- Sky colour behind the field -->
+    <asset>
+        <texture name="sky" type="skybox" builtin="gradient" rgb1="0.55 0.7 0.9" rgb2="0.2 0.3 0.45" width="512" height="512"/>
+    </asset>
+
     <worldbody>
 
         <!-- Fixed camera that shows the whole field -->
@@ -14,6 +19,105 @@
         <!-- Light and floor. M-Field is 14 x 9 m, plus 1 m border on each side -->
         <light directional="true" pos="0 0 10" dir="0 0.3 -1" diffuse="0.8 0.8 0.8"/>
         <geom name="floor" type="plane" size="8 5.5 0.1" rgba="0.2 0.6 0.2 1" friction="1 0.005 0.0001"/>
+
+        <!-- Field lines (visual only). Sizes from the HSL rules, M-Field. Lines are 5 cm wide -->
+        <!-- Touchlines, goal lines and halfway line -->
+        <geom name="touchline_left" type="box" pos="0.000 4.475 0.001" size="7.000 0.025 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="touchline_right" type="box" pos="0.000 -4.475 0.001" size="7.000 0.025 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="goal_line_blue" type="box" pos="-6.975 0.000 0.001" size="0.025 4.500 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="goal_line_red" type="box" pos="6.975 0.000 0.001" size="0.025 4.500 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="halfway_line" type="box" pos="0.000 0.000 0.001" size="0.025 4.500 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <!-- Goal area and penalty area, blue end -->
+        <geom name="goal_area_blue_front" type="box" pos="-6.025 0.000 0.001" size="0.025 2.000 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="goal_area_blue_top" type="box" pos="-6.500 1.975 0.001" size="0.500 0.025 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="goal_area_blue_bottom" type="box" pos="-6.500 -1.975 0.001" size="0.500 0.025 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="penalty_area_blue_front" type="box" pos="-4.025 0.000 0.001" size="0.025 3.000 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="penalty_area_blue_top" type="box" pos="-5.500 2.975 0.001" size="1.500 0.025 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="penalty_area_blue_bottom" type="box" pos="-5.500 -2.975 0.001" size="1.500 0.025 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="penalty_mark_blue" type="cylinder" pos="-5.000 0 0.001" size="0.05 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <!-- Goal area and penalty area, red end -->
+        <geom name="goal_area_red_front" type="box" pos="6.025 0.000 0.001" size="0.025 2.000 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="goal_area_red_top" type="box" pos="6.500 1.975 0.001" size="0.500 0.025 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="goal_area_red_bottom" type="box" pos="6.500 -1.975 0.001" size="0.500 0.025 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="penalty_area_red_front" type="box" pos="4.025 0.000 0.001" size="0.025 3.000 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="penalty_area_red_top" type="box" pos="5.500 2.975 0.001" size="1.500 0.025 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="penalty_area_red_bottom" type="box" pos="5.500 -2.975 0.001" size="1.500 0.025 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="penalty_mark_red" type="cylinder" pos="5.000 0 0.001" size="0.05 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <!-- Centre mark and centre circle (3 m diameter, drawn as 32 short segments) -->
+        <geom name="centre_mark" type="cylinder" pos="0 0 0.001" size="0.05 0.001" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_0" type="box" pos="1.468 0.145 0.001" size="0.150 0.025 0.001" euler="0 0 95.62" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_1" type="box" pos="1.411 0.428 0.001" size="0.150 0.025 0.001" euler="0 0 106.88" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_2" type="box" pos="1.301 0.695 0.001" size="0.150 0.025 0.001" euler="0 0 118.12" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_3" type="box" pos="1.140 0.936 0.001" size="0.150 0.025 0.001" euler="0 0 129.38" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_4" type="box" pos="0.936 1.140 0.001" size="0.150 0.025 0.001" euler="0 0 140.62" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_5" type="box" pos="0.695 1.301 0.001" size="0.150 0.025 0.001" euler="0 0 151.88" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_6" type="box" pos="0.428 1.411 0.001" size="0.150 0.025 0.001" euler="0 0 163.12" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_7" type="box" pos="0.145 1.468 0.001" size="0.150 0.025 0.001" euler="0 0 174.38" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_8" type="box" pos="-0.145 1.468 0.001" size="0.150 0.025 0.001" euler="0 0 185.62" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_9" type="box" pos="-0.428 1.411 0.001" size="0.150 0.025 0.001" euler="0 0 196.88" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_10" type="box" pos="-0.695 1.301 0.001" size="0.150 0.025 0.001" euler="0 0 208.12" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_11" type="box" pos="-0.936 1.140 0.001" size="0.150 0.025 0.001" euler="0 0 219.38" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_12" type="box" pos="-1.140 0.936 0.001" size="0.150 0.025 0.001" euler="0 0 230.63" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_13" type="box" pos="-1.301 0.695 0.001" size="0.150 0.025 0.001" euler="0 0 241.88" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_14" type="box" pos="-1.411 0.428 0.001" size="0.150 0.025 0.001" euler="0 0 253.12" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_15" type="box" pos="-1.468 0.145 0.001" size="0.150 0.025 0.001" euler="0 0 264.38" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_16" type="box" pos="-1.468 -0.145 0.001" size="0.150 0.025 0.001" euler="0 0 275.62" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_17" type="box" pos="-1.411 -0.428 0.001" size="0.150 0.025 0.001" euler="0 0 286.88" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_18" type="box" pos="-1.301 -0.695 0.001" size="0.150 0.025 0.001" euler="0 0 298.12" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_19" type="box" pos="-1.140 -0.936 0.001" size="0.150 0.025 0.001" euler="0 0 309.37" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_20" type="box" pos="-0.936 -1.140 0.001" size="0.150 0.025 0.001" euler="0 0 320.63" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_21" type="box" pos="-0.695 -1.301 0.001" size="0.150 0.025 0.001" euler="0 0 331.88" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_22" type="box" pos="-0.428 -1.411 0.001" size="0.150 0.025 0.001" euler="0 0 343.12" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_23" type="box" pos="-0.145 -1.468 0.001" size="0.150 0.025 0.001" euler="0 0 354.38" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_24" type="box" pos="0.145 -1.468 0.001" size="0.150 0.025 0.001" euler="0 0 365.62" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_25" type="box" pos="0.428 -1.411 0.001" size="0.150 0.025 0.001" euler="0 0 376.88" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_26" type="box" pos="0.695 -1.301 0.001" size="0.150 0.025 0.001" euler="0 0 388.12" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_27" type="box" pos="0.936 -1.140 0.001" size="0.150 0.025 0.001" euler="0 0 399.37" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_28" type="box" pos="1.140 -0.936 0.001" size="0.150 0.025 0.001" euler="0 0 410.63" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_29" type="box" pos="1.301 -0.695 0.001" size="0.150 0.025 0.001" euler="0 0 421.88" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_30" type="box" pos="1.411 -0.428 0.001" size="0.150 0.025 0.001" euler="0 0 433.12" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="centre_circle_31" type="box" pos="1.468 -0.145 0.001" size="0.150 0.025 0.001" euler="0 0 444.38" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <!-- Corner arcs (0.5 m radius) -->
+        <geom name="corner_bl_0" type="box" pos="-6.529 -4.438 0.001" size="0.067 0.025 0.001" euler="0 0 97.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_bl_1" type="box" pos="-6.561 -4.318 0.001" size="0.067 0.025 0.001" euler="0 0 112.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_bl_2" type="box" pos="-6.623 -4.211 0.001" size="0.067 0.025 0.001" euler="0 0 127.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_bl_3" type="box" pos="-6.711 -4.123 0.001" size="0.067 0.025 0.001" euler="0 0 142.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_bl_4" type="box" pos="-6.818 -4.061 0.001" size="0.067 0.025 0.001" euler="0 0 157.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_bl_5" type="box" pos="-6.938 -4.029 0.001" size="0.067 0.025 0.001" euler="0 0 172.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_br_0" type="box" pos="6.938 -4.029 0.001" size="0.067 0.025 0.001" euler="0 0 187.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_br_1" type="box" pos="6.818 -4.061 0.001" size="0.067 0.025 0.001" euler="0 0 202.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_br_2" type="box" pos="6.711 -4.123 0.001" size="0.067 0.025 0.001" euler="0 0 217.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_br_3" type="box" pos="6.623 -4.211 0.001" size="0.067 0.025 0.001" euler="0 0 232.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_br_4" type="box" pos="6.561 -4.318 0.001" size="0.067 0.025 0.001" euler="0 0 247.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_br_5" type="box" pos="6.529 -4.438 0.001" size="0.067 0.025 0.001" euler="0 0 262.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_tr_0" type="box" pos="6.529 4.438 0.001" size="0.067 0.025 0.001" euler="0 0 277.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_tr_1" type="box" pos="6.561 4.318 0.001" size="0.067 0.025 0.001" euler="0 0 292.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_tr_2" type="box" pos="6.623 4.211 0.001" size="0.067 0.025 0.001" euler="0 0 307.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_tr_3" type="box" pos="6.711 4.123 0.001" size="0.067 0.025 0.001" euler="0 0 322.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_tr_4" type="box" pos="6.818 4.061 0.001" size="0.067 0.025 0.001" euler="0 0 337.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_tr_5" type="box" pos="6.938 4.029 0.001" size="0.067 0.025 0.001" euler="0 0 352.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_tl_0" type="box" pos="-6.938 4.029 0.001" size="0.067 0.025 0.001" euler="0 0 367.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_tl_1" type="box" pos="-6.818 4.061 0.001" size="0.067 0.025 0.001" euler="0 0 382.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_tl_2" type="box" pos="-6.711 4.123 0.001" size="0.067 0.025 0.001" euler="0 0 397.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_tl_3" type="box" pos="-6.623 4.211 0.001" size="0.067 0.025 0.001" euler="0 0 412.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_tl_4" type="box" pos="-6.561 4.318 0.001" size="0.067 0.025 0.001" euler="0 0 427.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <geom name="corner_tl_5" type="box" pos="-6.529 4.438 0.001" size="0.067 0.025 0.001" euler="0 0 442.50" contype="0" conaffinity="0" rgba="1 1 1 1"/>
+        <!-- Goal, blue end: posts and crossbar are solid, nets stop the ball -->
+        <geom name="goal_blue_post_left" type="box" pos="-6.950 1.300 0.875" size="0.05 0.05 0.875" rgba="1 1 1 1"/>
+        <geom name="goal_blue_post_right" type="box" pos="-6.950 -1.300 0.875" size="0.05 0.05 0.875" rgba="1 1 1 1"/>
+        <geom name="goal_blue_crossbar" type="box" pos="-6.950 0 1.750" size="0.05 1.350 0.05" rgba="1 1 1 1"/>
+        <geom name="goal_blue_net_back" type="box" pos="-8.000 0 0.85" size="0.01 1.3 0.85" rgba="0.85 0.85 0.85 0.15"/>
+        <geom name="goal_blue_net_left" type="box" pos="-7.500 1.3 0.85" size="0.5 0.01 0.85" rgba="0.85 0.85 0.85 0.15"/>
+        <geom name="goal_blue_net_right" type="box" pos="-7.500 -1.3 0.85" size="0.5 0.01 0.85" rgba="0.85 0.85 0.85 0.15"/>
+        <geom name="goal_blue_net_top" type="box" pos="-7.500 0 1.7" size="0.5 1.3 0.01" rgba="0.85 0.85 0.85 0.15"/>
+        <!-- Goal, red end: posts and crossbar are solid, nets stop the ball -->
+        <geom name="goal_red_post_left" type="box" pos="6.950 1.300 0.875" size="0.05 0.05 0.875" rgba="1 1 1 1"/>
+        <geom name="goal_red_post_right" type="box" pos="6.950 -1.300 0.875" size="0.05 0.05 0.875" rgba="1 1 1 1"/>
+        <geom name="goal_red_crossbar" type="box" pos="6.950 0 1.750" size="0.05 1.350 0.05" rgba="1 1 1 1"/>
+        <geom name="goal_red_net_back" type="box" pos="8.000 0 0.85" size="0.01 1.3 0.85" rgba="0.85 0.85 0.85 0.15"/>
+        <geom name="goal_red_net_left" type="box" pos="7.500 1.3 0.85" size="0.5 0.01 0.85" rgba="0.85 0.85 0.85 0.15"/>
+        <geom name="goal_red_net_right" type="box" pos="7.500 -1.3 0.85" size="0.5 0.01 0.85" rgba="0.85 0.85 0.85 0.15"/>
+        <geom name="goal_red_net_top" type="box" pos="7.500 0 1.7" size="0.5 1.3 0.01" rgba="0.85 0.85 0.85 0.15"/>
 
         <!-- Ball, FIFA size 3 -->
         <body name="ball" pos="0 0 0.095">
@@ -32,7 +136,7 @@
         </body>
 
         <!-- Robot 2: same as robot 1, facing the other way -->
-        <body name="robot2" pos="2 -1 0" euler="0 0 3.14159">
+        <body name="robot2" pos="2 -1 0" euler="0 0 180">
             <joint name="r2_x" type="slide" axis="1 0 0"/>
             <joint name="r2_y" type="slide" axis="0 1 0"/>
             <joint name="r2_yaw" type="hinge" axis="0 0 1"/>
