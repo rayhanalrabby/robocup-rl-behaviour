@@ -79,8 +79,6 @@ with mujoco.viewer.launch_passive(
     model, data, show_left_ui=show_panels, show_right_ui=show_panels
 ) as viewer:
     mujoco.mjv_defaultFreeCamera(model, viewer.cam)  # start with the same view as Align
-    if show_panels:
-        viewer.cam.distance *= 1.6  # zoom out so the field fits between the panels
     maximise_window("MuJoCo : robocup_simple")  # open the window maximised
     while viewer.is_running() and data.time < duration:
         step_start = time.time()

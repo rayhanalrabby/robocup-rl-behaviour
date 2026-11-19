@@ -6,32 +6,28 @@
     <statistic center="0 -1 0" extent="10"/>
     <visual>
         <global azimuth="90" elevation="-55"/>
-        <quality shadowsize="4096" offsamples="8"/>
-        <headlight ambient="0.35 0.35 0.35" diffuse="0.35 0.35 0.35" specular="0 0 0"/>
-        <rgba haze="0.75 0.85 0.95 1"/>
+        <quality shadowsize="4096" offsamples="8" numslices="96"/>
+        <headlight ambient="0.28 0.28 0.3" diffuse="0.15 0.15 0.15" specular="0 0 0"/>
+        <rgba haze="0.82 0.87 0.92 1"/>
     </visual>
 
     <!-- Textures and materials: sky, mowed grass stripes, ball, robots -->
     <asset>
-        <texture name="sky" type="skybox" builtin="gradient" rgb1="0.55 0.75 0.98" rgb2="0.9 0.95 1" width="512" height="512"/>
-        <texture name="grass" type="2d" builtin="checker" rgb1="0.2 0.5 0.2" rgb2="0.17 0.44 0.17" width="512" height="512"/>
-        <material name="grass" texture="grass" texrepeat="8 0.5" reflectance="0.02"/>
-        <material name="surround" rgba="0.4 0.42 0.44 1"/>
-        <material name="track" rgba="0.6 0.3 0.25 1"/>
-        <material name="board_a" rgba="0.08 0.15 0.35 1" emission="0.2"/>
-        <material name="board_b" rgba="0.0 0.55 0.6 1" emission="0.2"/>
-        <material name="board_c" rgba="0.95 0.55 0.1 1" emission="0.2"/>
-        <material name="board_d" rgba="0.95 0.95 0.95 1" emission="0.1"/>
-        <material name="seat_a" rgba="0.15 0.3 0.6 1"/>
-        <material name="seat_b" rgba="0.75 0.75 0.78 1"/>
-        <material name="concrete" rgba="0.62 0.62 0.64 1"/>
-        <material name="pole" rgba="0.35 0.36 0.38 1" specular="0.5"/>
-        <material name="lamp" rgba="1 1 0.9 1" emission="1"/>
-        <material name="line" rgba="0.97 0.97 0.97 1" emission="0.15"/>
+        <texture name="sky" type="skybox" builtin="gradient" rgb1="0.36 0.56 0.82" rgb2="0.88 0.91 0.94" width="512" height="512"/>
+        <texture name="grass" type="2d" builtin="checker" mark="random" random="0.15" rgb1="0.2 0.44 0.19" rgb2="0.17 0.39 0.17" markrgb="0.14 0.33 0.14" width="1024" height="1024"/>
+        <material name="grass" texture="grass" texrepeat="8 0.5"/>
+        <texture name="tartan" type="2d" builtin="flat" mark="random" random="0.2" rgb1="0.66 0.33 0.23" markrgb="0.58 0.28 0.2" width="512" height="512"/>
+        <material name="track" texture="tartan" texrepeat="4 4" texuniform="true" specular="0" shininess="0"/>
+        <material name="track_side" rgba="0.48 0.24 0.17 1" specular="0" shininess="0"/>
+        <material name="track_line" rgba="0.9 0.9 0.87 1" specular="0" shininess="0"/>
+        <texture name="infield_grass" type="2d" builtin="flat" mark="random" random="0.2" rgb1="0.19 0.4 0.16" markrgb="0.15 0.33 0.13" width="512" height="512"/>
+        <material name="infield" texture="infield_grass" texrepeat="4 4" texuniform="true" specular="0" shininess="0"/>
+        <material name="board" rgba="0.86 0.87 0.86 1" specular="0.15"/>
+        <material name="line" rgba="0.9 0.9 0.87 1"/>
         <texture name="ball" type="cube" builtin="checker" rgb1="0.97 0.97 0.97" rgb2="0.08 0.08 0.08" width="64" height="64"/>
         <material name="ball" texture="ball" specular="0.4" shininess="0.6"/>
-        <material name="blue_team" rgba="0.12 0.32 0.85 1" specular="0.5" shininess="0.5"/>
-        <material name="red_team" rgba="0.85 0.14 0.14 1" specular="0.5" shininess="0.5"/>
+        <material name="blue_team" rgba="0.14 0.3 0.7 1" specular="0.3" shininess="0.3"/>
+        <material name="red_team" rgba="0.72 0.15 0.15 1" specular="0.3" shininess="0.3"/>
         <material name="head" rgba="0.92 0.92 0.92 1" specular="0.6" shininess="0.7"/>
         <material name="eye" rgba="0.05 0.05 0.05 1" specular="0.8" shininess="0.9"/>
         <material name="post" rgba="1 1 1 1" specular="0.5" shininess="0.6"/>
@@ -44,51 +40,71 @@
         <camera name="field_view" pos="0 -13 12" xyaxes="1 0 0 0 0.678 0.735"/>
 
         <!-- Light and floor. M-Field is 14 x 9 m, plus 1 m border on each side -->
-        <light name="sun" directional="true" pos="0 0 10" dir="0 0.3 -1" diffuse="0.75 0.75 0.7" castshadow="true"/>
-        <light name="fill" directional="true" pos="0 0 10" dir="0 -0.3 -1" diffuse="0.25 0.25 0.3" castshadow="false"/>
+        <light name="sun" directional="true" pos="0 0 10" dir="0 0.3 -1" diffuse="0.68 0.64 0.56" castshadow="false"/>
+        <light name="fill" directional="true" pos="0 0 10" dir="0 -0.3 -1" diffuse="0.16 0.18 0.24" castshadow="false"/>
         <geom name="floor" type="plane" size="8 5.5 0.1" material="grass" friction="1 0.005 0.0001"/>
-        <!-- Dark ground around the field, visual only -->
-        <geom name="surround" type="plane" size="20 14 0.1" pos="0 0 -0.01" material="surround" contype="0" conaffinity="0"/>
 
         <!-- Stadium around the field, all visual only -->
-        <!-- Running track -->
-        <geom name="track_left" type="box" pos="0 6.10 -0.005" size="9.20 0.60 0.001" contype="0" conaffinity="0" material="track"/>
-        <geom name="track_right" type="box" pos="0 -6.10 -0.005" size="9.20 0.60 0.001" contype="0" conaffinity="0" material="track"/>
-        <geom name="track_blue_end" type="box" pos="-8.60 0 -0.005" size="0.60 5.5 0.001" contype="0" conaffinity="0" material="track"/>
-        <geom name="track_red_end" type="box" pos="8.60 0 -0.005" size="0.60 5.5 0.001" contype="0" conaffinity="0" material="track"/>
-        <!-- Advertising boards around the field -->
-        <geom name="board_left_0" type="box" pos="-6 5.6 0.25" size="1.95 0.03 0.25" contype="0" conaffinity="0" material="board_a"/>
-        <geom name="board_left_1" type="box" pos="-2 5.6 0.25" size="1.95 0.03 0.25" contype="0" conaffinity="0" material="board_b"/>
-        <geom name="board_left_2" type="box" pos="2 5.6 0.25" size="1.95 0.03 0.25" contype="0" conaffinity="0" material="board_c"/>
-        <geom name="board_left_3" type="box" pos="6 5.6 0.25" size="1.95 0.03 0.25" contype="0" conaffinity="0" material="board_d"/>
-        <geom name="board_right_0" type="box" pos="-6 -5.6 0.25" size="1.95 0.03 0.25" contype="0" conaffinity="0" material="board_b"/>
-        <geom name="board_right_1" type="box" pos="-2 -5.6 0.25" size="1.95 0.03 0.25" contype="0" conaffinity="0" material="board_c"/>
-        <geom name="board_right_2" type="box" pos="2 -5.6 0.25" size="1.95 0.03 0.25" contype="0" conaffinity="0" material="board_d"/>
-        <geom name="board_right_3" type="box" pos="6 -5.6 0.25" size="1.95 0.03 0.25" contype="0" conaffinity="0" material="board_a"/>
-        <geom name="board_blue_end_0" type="box" pos="-8.1 -3.5 0.25" size="0.03 1.95 0.25" contype="0" conaffinity="0" material="board_c"/>
-        <geom name="board_blue_end_1" type="box" pos="-8.1 3.5 0.25" size="0.03 1.95 0.25" contype="0" conaffinity="0" material="board_d"/>
-        <geom name="board_red_end_0" type="box" pos="8.1 -3.5 0.25" size="0.03 1.95 0.25" contype="0" conaffinity="0" material="board_c"/>
-        <geom name="board_red_end_1" type="box" pos="8.1 3.5 0.25" size="0.03 1.95 0.25" contype="0" conaffinity="0" material="board_d"/>
-        <!-- Stands along both sides: four steps of seats -->
-        <geom name="stand_left_0" type="box" pos="0 7.30 0.15" size="9.5 0.4 0.15" contype="0" conaffinity="0" material="seat_a"/>
-        <geom name="stand_left_1" type="box" pos="0 8.10 0.40" size="9.5 0.4 0.40" contype="0" conaffinity="0" material="seat_b"/>
-        <geom name="stand_left_2" type="box" pos="0 8.90 0.65" size="9.5 0.4 0.65" contype="0" conaffinity="0" material="seat_a"/>
-        <geom name="stand_left_3" type="box" pos="0 9.70 0.90" size="9.5 0.4 0.90" contype="0" conaffinity="0" material="seat_b"/>
-        <geom name="stand_left_back" type="box" pos="0 10.55 1.4" size="9.5 0.15 1.4" contype="0" conaffinity="0" material="concrete"/>
-        <geom name="stand_right_0" type="box" pos="0 -7.30 0.15" size="9.5 0.4 0.15" contype="0" conaffinity="0" material="seat_a"/>
-        <geom name="stand_right_1" type="box" pos="0 -8.10 0.40" size="9.5 0.4 0.40" contype="0" conaffinity="0" material="seat_b"/>
-        <geom name="stand_right_2" type="box" pos="0 -8.90 0.65" size="9.5 0.4 0.65" contype="0" conaffinity="0" material="seat_a"/>
-        <geom name="stand_right_3" type="box" pos="0 -9.70 0.90" size="9.5 0.4 0.90" contype="0" conaffinity="0" material="seat_b"/>
-        <geom name="stand_right_back" type="box" pos="0 -10.55 1.4" size="9.5 0.15 1.4" contype="0" conaffinity="0" material="concrete"/>
-        <!-- Floodlights in the four corners -->
-        <geom name="floodlight_pole_0" type="cylinder" fromto="-10.5 8.5 0 -10.5 8.5 11" size="0.15" contype="0" conaffinity="0" material="pole"/>
-        <geom name="floodlight_lamp_0" type="box" pos="-10.5 8.5 11.3" size="0.7 0.7 0.35" euler="0 0 45" contype="0" conaffinity="0" material="lamp"/>
-        <geom name="floodlight_pole_1" type="cylinder" fromto="10.5 8.5 0 10.5 8.5 11" size="0.15" contype="0" conaffinity="0" material="pole"/>
-        <geom name="floodlight_lamp_1" type="box" pos="10.5 8.5 11.3" size="0.7 0.7 0.35" euler="0 0 45" contype="0" conaffinity="0" material="lamp"/>
-        <geom name="floodlight_pole_2" type="cylinder" fromto="-10.5 -8.5 0 -10.5 -8.5 11" size="0.15" contype="0" conaffinity="0" material="pole"/>
-        <geom name="floodlight_lamp_2" type="box" pos="-10.5 -8.5 11.3" size="0.7 0.7 0.35" euler="0 0 45" contype="0" conaffinity="0" material="lamp"/>
-        <geom name="floodlight_pole_3" type="cylinder" fromto="10.5 -8.5 0 10.5 -8.5 11" size="0.15" contype="0" conaffinity="0" material="pole"/>
-        <geom name="floodlight_lamp_3" type="box" pos="10.5 -8.5 11.3" size="0.7 0.7 0.35" euler="0 0 45" contype="0" conaffinity="0" material="lamp"/>
+        <!-- Floating athletics track: a thick slab with 6 lanes and a sprint straight -->
+        <geom name="slab_straight" type="box" pos="0 0 -0.48" size="5.5 9.95 0.415" contype="0" conaffinity="0" material="track_side"/>
+        <geom name="slab_end_blue" type="cylinder" pos="-5.5 0 -0.48" size="9.95 0.415" contype="0" conaffinity="0" material="track_side"/>
+        <geom name="slab_end_red" type="cylinder" pos="5.5 0 -0.48" size="9.95 0.415" contype="0" conaffinity="0" material="track_side"/>
+        <geom name="slab_sprint" type="box" pos="10.75 -8.15 -0.48" size="5.25 1.80 0.415" contype="0" conaffinity="0" material="track_side"/>
+        <geom name="track_surface_straight" type="box" pos="0 0 -0.060" size="5.5 9.950 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="track_surface_end_blue" type="cylinder" pos="-5.5 0 -0.060" size="9.950 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="track_surface_end_red" type="cylinder" pos="5.5 0 -0.060" size="9.950 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_line_5_straight" type="box" pos="0 0 -0.056" size="5.5 9.375 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_line_5_end_blue" type="cylinder" pos="-5.5 0 -0.056" size="9.375 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_line_5_end_red" type="cylinder" pos="5.5 0 -0.056" size="9.375 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_5_straight" type="box" pos="0 0 -0.052" size="5.5 9.325 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_5_end_blue" type="cylinder" pos="-5.5 0 -0.052" size="9.325 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_5_end_red" type="cylinder" pos="5.5 0 -0.052" size="9.325 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_line_4_straight" type="box" pos="0 0 -0.048" size="5.5 8.775 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_line_4_end_blue" type="cylinder" pos="-5.5 0 -0.048" size="8.775 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_line_4_end_red" type="cylinder" pos="5.5 0 -0.048" size="8.775 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_4_straight" type="box" pos="0 0 -0.044" size="5.5 8.725 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_4_end_blue" type="cylinder" pos="-5.5 0 -0.044" size="8.725 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_4_end_red" type="cylinder" pos="5.5 0 -0.044" size="8.725 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_line_3_straight" type="box" pos="0 0 -0.040" size="5.5 8.175 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_line_3_end_blue" type="cylinder" pos="-5.5 0 -0.040" size="8.175 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_line_3_end_red" type="cylinder" pos="5.5 0 -0.040" size="8.175 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_3_straight" type="box" pos="0 0 -0.036" size="5.5 8.125 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_3_end_blue" type="cylinder" pos="-5.5 0 -0.036" size="8.125 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_3_end_red" type="cylinder" pos="5.5 0 -0.036" size="8.125 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_line_2_straight" type="box" pos="0 0 -0.032" size="5.5 7.575 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_line_2_end_blue" type="cylinder" pos="-5.5 0 -0.032" size="7.575 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_line_2_end_red" type="cylinder" pos="5.5 0 -0.032" size="7.575 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_2_straight" type="box" pos="0 0 -0.028" size="5.5 7.525 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_2_end_blue" type="cylinder" pos="-5.5 0 -0.028" size="7.525 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_2_end_red" type="cylinder" pos="5.5 0 -0.028" size="7.525 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_line_1_straight" type="box" pos="0 0 -0.024" size="5.5 6.975 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_line_1_end_blue" type="cylinder" pos="-5.5 0 -0.024" size="6.975 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_line_1_end_red" type="cylinder" pos="5.5 0 -0.024" size="6.975 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_1_straight" type="box" pos="0 0 -0.020" size="5.5 6.925 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_1_end_blue" type="cylinder" pos="-5.5 0 -0.020" size="6.925 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_1_end_red" type="cylinder" pos="5.5 0 -0.020" size="6.925 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="lane_line_inner_straight" type="box" pos="0 0 -0.016" size="5.5 6.375 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_line_inner_end_blue" type="cylinder" pos="-5.5 0 -0.016" size="6.375 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="lane_line_inner_end_red" type="cylinder" pos="5.5 0 -0.016" size="6.375 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="infield_straight" type="box" pos="0 0 -0.012" size="5.5 6.325 0.0005" contype="0" conaffinity="0" material="infield"/>
+        <geom name="infield_end_blue" type="cylinder" pos="-5.5 0 -0.012" size="6.325 0.0005" contype="0" conaffinity="0" material="infield"/>
+        <geom name="infield_end_red" type="cylinder" pos="5.5 0 -0.012" size="6.325 0.0005" contype="0" conaffinity="0" material="infield"/>
+        <!-- Sprint straight running past the curve, with a start line -->
+        <geom name="sprint_surface" type="box" pos="10.75 -8.150 -0.008" size="5.25 1.825 0.0005" contype="0" conaffinity="0" material="track"/>
+        <geom name="sprint_line_0" type="box" pos="10.75 -6.350 -0.004" size="5.25 0.025 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="sprint_line_1" type="box" pos="10.75 -6.950 -0.004" size="5.25 0.025 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="sprint_line_2" type="box" pos="10.75 -7.550 -0.004" size="5.25 0.025 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="sprint_line_3" type="box" pos="10.75 -8.150 -0.004" size="5.25 0.025 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="sprint_line_4" type="box" pos="10.75 -8.750 -0.004" size="5.25 0.025 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="sprint_line_5" type="box" pos="10.75 -9.350 -0.004" size="5.25 0.025 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="sprint_line_6" type="box" pos="10.75 -9.950 -0.004" size="5.25 0.025 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <geom name="sprint_start_line" type="box" pos="15.40 -8.150 -0.004" size="0.04 1.800 0.0005" contype="0" conaffinity="0" material="track_line"/>
+        <!-- White boards around the field -->
+        <geom name="board_left" type="box" pos="0 5.6 0.25" size="8.13 0.03 0.25" contype="0" conaffinity="0" material="board"/>
+        <geom name="board_right" type="box" pos="0 -5.6 0.25" size="8.13 0.03 0.25" contype="0" conaffinity="0" material="board"/>
+        <geom name="board_blue_end" type="box" pos="-8.1 0 0.25" size="0.03 5.6 0.25" contype="0" conaffinity="0" material="board"/>
+        <geom name="board_red_end" type="box" pos="8.1 0 0.25" size="0.03 5.6 0.25" contype="0" conaffinity="0" material="board"/>
+
 
         <!-- Field lines (visual only). Sizes from the HSL rules, M-Field. Lines are 5 cm wide -->
         <!-- Touchlines, goal lines and halfway line -->
