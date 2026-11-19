@@ -2,11 +2,18 @@
 
   <!-- Physics settings: 5 ms step -->
   <option timestep="0.005" gravity="0 0 -9.81" integrator="implicitfast"/>
+    <!-- Starting view: whole field, looking from the side -->
+  <statistic center="0 0 0" extent="9"/>
+  <visual><global azimuth="90" elevation="-40"/></visual>
+
 
   <worldbody>
 
+    <!-- Fixed camera that shows the whole field -->
+    <camera name="field_view" pos="0 -13 12" xyaxes="1 0 0 0 0.678 0.735"/>
+
     <!-- Light and floor. M-Field is 14 x 9 m, plus 1 m border on each side -->
-    <light pos="0 0 6" dir="0 0 -1" diffuse="0.8 0.8 0.8"/>
+    <light directional="true" pos="0 0 10" dir="0 0.3 -1" diffuse="0.8 0.8 0.8"/>
     <geom name="floor" type="plane" size="8 5.5 0.1" rgba="0.2 0.6 0.2 1" friction="1 0.005 0.0001"/>
 
     <!-- Ball, FIFA size 3 -->
